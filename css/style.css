@@ -1203,6 +1203,8 @@ section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .cert-img {
@@ -1210,6 +1212,7 @@ section {
     overflow: hidden;
     border: 2px solid transparent;
     transition: 0.3s ease;
+    aspect-ratio: 4/3;
 }
 
 .cert-img:hover {
@@ -1221,8 +1224,21 @@ section {
 .cert-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
+    background: var(--second-bg-color);
+}
+
+@media (max-width: 991px) {
+    .certifications-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 617px) {
+    .certifications-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ==================== CONTACT ==================== */
