@@ -171,16 +171,16 @@ if (scheduleForm) {
 
       if (response.ok) {
         const data = Object.fromEntries(formData);
-        alert(`Thank you ${data.name}! Your call has been scheduled for ${data.date} at ${data.time}. I will contact you soon to confirm.`);
+        showSuccessModal('Call Scheduled!', `Thank you ${data.name}! Your call has been scheduled for ${data.date} at ${data.time}. I will contact you soon to confirm.`);
         scheduleModal.classList.remove('active');
         document.body.style.overflow = 'auto';
         scheduleForm.reset();
       } else {
-        alert('Oops! There was a problem submitting your form. Please try again.');
+        showSuccessModal('Oops!', 'There was a problem submitting your form. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to schedule call. Please try again.');
+      showSuccessModal('Error', 'Failed to schedule call. Please try again.');
     } finally {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
@@ -210,17 +210,47 @@ if (contactForm) {
 
       if (response.ok) {
         const data = Object.fromEntries(formData);
-        alert(`Thank you ${data.fullName}! Your message has been sent. I'll get back to you soon.`);
+        showSuccessModal('Message Sent!', `Thank you ${data.fullName}! Your message has been sent successfully. I'll get back to you soon.`);
         contactForm.reset();
       } else {
-        alert('Oops! There was a problem sending your message. Please try again.');
+        showSuccessModal('Oops!', 'There was a problem sending your message. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to send message. Please try again.');
+      showSuccessModal('Error', 'Failed to send message. Please try again.');
     } finally {
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
+    }
+  });
+}
+
+/*==================== success modal ====================*/
+const successModal = document.getElementById('successModal');
+const successModalClose = document.getElementById('successModalClose');
+const successTitle = document.getElementById('successTitle');
+const successMessage = document.getElementById('successMessage');
+
+function showSuccessModal(title, message) {
+  successTitle.textContent = title;
+  successMessage.textContent = message;
+  successModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSuccessModal() {
+  successModal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+if (successModalClose) {
+  successModalClose.addEventListener('click', closeSuccessModal);
+}
+
+if (successModal) {
+  successModal.addEventListener('click', (e) => {
+    if (e.target === successModal) {
+      closeSuccessModal();
     }
   });
 }
