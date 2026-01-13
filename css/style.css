@@ -1033,6 +1033,16 @@ section {
     outline: none;
 }
 
+/* Date picker calendar icon */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(27%) sepia(95%) saturate(4000%) hue-rotate(340deg) brightness(90%);
+    cursor: pointer;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(27%) sepia(95%) saturate(4000%) hue-rotate(340deg) brightness(120%);
+}
+
 .form-row {
     display: flex;
     gap: 1.5rem;
