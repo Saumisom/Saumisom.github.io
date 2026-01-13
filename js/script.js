@@ -153,17 +153,38 @@ if (scheduleModal) {
 }
 
 if (scheduleForm) {
-  scheduleForm.addEventListener('submit', (e) => {
+  scheduleForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(scheduleForm);
-    const data = Object.fromEntries(formData);
 
-    // Show success message
-    alert(`Thank you ${data.name}! Your call has been scheduled for ${data.date} at ${data.time}. I will contact you at ${data.phone} to confirm.`);
+    const submitBtn = scheduleForm.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Submitting...';
+    submitBtn.disabled = true;
 
-    scheduleModal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-    scheduleForm.reset();
+    try {
+      const response = await fetch('https://formspree.io/f/meeeqrnv', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        const data = Object.fromEntries(formData);
+        alert(`Thank you ${data.name}! Your call has been scheduled for ${data.date} at ${data.time}. I will contact you soon to confirm.`);
+        scheduleModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        scheduleForm.reset();
+      } else {
+        alert('Oops! There was a problem submitting your form. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to schedule call. Please try again.');
+    } finally {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
   });
 }
 
@@ -171,14 +192,35 @@ if (scheduleForm) {
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData);
 
-    // Show success message
-    alert(`Thank you ${data.fullName}! Your message has been sent. I'll get back to you soon at ${data.email}.`);
+    const submitBtn = contactForm.querySelector('.contact-submit-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Sending...';
+    submitBtn.disabled = true;
 
-    contactForm.reset();
+    try {
+      const response = await fetch('https://formspree.io/f/meeeqrnv', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        const data = Object.fromEntries(formData);
+        alert(`Thank you ${data.fullName}! Your message has been sent. I'll get back to you soon.`);
+        contactForm.reset();
+      } else {
+        alert('Oops! There was a problem sending your message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
   });
 }
