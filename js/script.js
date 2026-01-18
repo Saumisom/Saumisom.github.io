@@ -71,7 +71,7 @@ ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
 ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
 ScrollReveal().reveal('.about-img, .journey-column:first-child', { origin: 'left' });
 ScrollReveal().reveal('.about-content, .journey-column:last-child', { origin: 'right' });
-ScrollReveal().reveal('.skill-box, .featured-box, .testimonial-box', { origin: 'bottom', interval: 100 });
+ScrollReveal().reveal('.featured-box, .testimonial-box', { origin: 'bottom', interval: 100 });
 
 /*==================== typed js ====================*/
 const typed = new Typed('.multiple-text', {
