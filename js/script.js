@@ -264,25 +264,35 @@ const DOCK_CONFIG = {
   maxScale: 1.5,        // Maximum scale for the hovered item
   neighborScale: 1.25,  // Scale for immediate neighbors
   falloffRange: 2,      // How many neighbors to affect on each side
-  baseScale: 1          // Normal scale
+  baseScale: 1,         // Normal scale
+  columnsPerRow: 6      // Number of columns in each row
 };
 
 function applyDockEffect(hoveredIndex) {
-  skillBoxes.forEach((box, index) => {
-    const distance = Math.abs(index - hoveredIndex);
-    let scale = DOCK_CONFIG.baseScale;
+  // Calculate which row the hovered item is in
+  const hoveredRow = Math.floor(hoveredIndex / DOCK_CONFIG.columnsPerRow);
 
+  skillBoxes.forEach((box, index) => {
+    // Calculate which row this item is in
+    const currentRow = Math.floor(index / DOCK_CONFIG.columnsPerRow);
+
+    let scale = DOCK_CONFIG.baseScale;
     box.classList.remove('dock-active', 'dock-neighbor');
 
-    if (distance === 0) {
-      // Hovered item gets maximum scale
-      scale = DOCK_CONFIG.maxScale;
-      box.classList.add('dock-active');
-    } else if (distance <= DOCK_CONFIG.falloffRange) {
-      // Neighbors get progressively smaller scale based on distance
-      const falloff = 1 - (distance / (DOCK_CONFIG.falloffRange + 1));
-      scale = DOCK_CONFIG.baseScale + ((DOCK_CONFIG.neighborScale - DOCK_CONFIG.baseScale) * falloff);
-      box.classList.add('dock-neighbor');
+    // Only apply effect if in the same row
+    if (currentRow === hoveredRow) {
+      const distance = Math.abs(index - hoveredIndex);
+
+      if (distance === 0) {
+        // Hovered item gets maximum scale
+        scale = DOCK_CONFIG.maxScale;
+        box.classList.add('dock-active');
+      } else if (distance <= DOCK_CONFIG.falloffRange) {
+        // Neighbors get progressively smaller scale based on distance
+        const falloff = 1 - (distance / (DOCK_CONFIG.falloffRange + 1));
+        scale = DOCK_CONFIG.baseScale + ((DOCK_CONFIG.neighborScale - DOCK_CONFIG.baseScale) * falloff);
+        box.classList.add('dock-neighbor');
+      }
     }
 
     box.style.transform = `scale(${scale})`;
