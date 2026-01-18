@@ -254,3 +254,58 @@ if (successModal) {
     }
   });
 }
+
+/*==================== macOS dock magnification effect for skills ====================*/
+const skillsContainer = document.querySelector('.skills-container');
+const skillBoxes = document.querySelectorAll('.skill-box');
+
+// Configuration for the dock effect
+const DOCK_CONFIG = {
+  maxScale: 1.5,        // Maximum scale for the hovered item
+  neighborScale: 1.25,  // Scale for immediate neighbors
+  falloffRange: 2,      // How many neighbors to affect on each side
+  baseScale: 1          // Normal scale
+};
+
+function applyDockEffect(hoveredIndex) {
+  skillBoxes.forEach((box, index) => {
+    const distance = Math.abs(index - hoveredIndex);
+    let scale = DOCK_CONFIG.baseScale;
+
+    box.classList.remove('dock-active', 'dock-neighbor');
+
+    if (distance === 0) {
+      // Hovered item gets maximum scale
+      scale = DOCK_CONFIG.maxScale;
+      box.classList.add('dock-active');
+    } else if (distance <= DOCK_CONFIG.falloffRange) {
+      // Neighbors get progressively smaller scale based on distance
+      const falloff = 1 - (distance / (DOCK_CONFIG.falloffRange + 1));
+      scale = DOCK_CONFIG.baseScale + ((DOCK_CONFIG.neighborScale - DOCK_CONFIG.baseScale) * falloff);
+      box.classList.add('dock-neighbor');
+    }
+
+    box.style.transform = `scale(${scale})`;
+  });
+}
+
+function resetDockEffect() {
+  skillBoxes.forEach(box => {
+    box.classList.remove('dock-active', 'dock-neighbor');
+    box.style.transform = `scale(${DOCK_CONFIG.baseScale})`;
+  });
+}
+
+// Add event listeners to each skill box
+skillBoxes.forEach((box, index) => {
+  box.addEventListener('mouseenter', () => {
+    applyDockEffect(index);
+  });
+});
+
+// Reset when mouse leaves the skills container
+if (skillsContainer) {
+  skillsContainer.addEventListener('mouseleave', () => {
+    resetDockEffect();
+  });
+}
