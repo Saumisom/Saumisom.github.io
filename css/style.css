@@ -413,10 +413,10 @@ section {
     padding: 2.5rem 2rem;
     background: var(--second-bg-color);
     border: 1px solid rgba(214, 40, 57, 0.1);
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-        background 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.05s ease-out,
+        background 0.05s ease-out,
+        border-color 0.05s ease-out,
+        box-shadow 0.05s ease-out;
     transform-origin: bottom center;
     width: calc(100% / 6);
     min-width: 120px;
@@ -441,14 +441,14 @@ section {
     font-size: 5rem;
     color: var(--main-color);
     margin-bottom: 1rem;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.05s ease-out;
 }
 
 .skill-box span {
     font-size: 1.4rem;
     color: var(--text-color);
     font-weight: 500;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.05s ease-out;
     white-space: nowrap;
 }
 
